@@ -21,21 +21,23 @@ def parse_request(request):
     this function validates the request that user POSTed
     '''
     data = {}
-    MAX_ALLOWED_LENGTH = 38
-    if request.content_length > MAX_ALLOWED_LENGTH:
-        raise InvaildRequestError()
+    # TODO: Fix this up
+    # MAX_ALLOWED_LENGTH = 200
+    # print(request.content_length)
+    # if request.content_length > MAX_ALLOWED_LENGTH:
+    #     raise InvaildRequestError("Payload is too big")
         
     request.get_data(parse_form_data=True)
 
     if 'clientID' not in request.headers:
-        raise InvaildRequestError()
+        raise InvaildRequestError("clientID not supplied")
 
     body_tags = ('doorClosed','peopleInside')
     for tag in body_tags:
         if tag not in request.form.keys():
-            raise InvaildRequestError()
+            raise InvaildRequestError("Missing key: "+ tag)
         if request.form[tag] != 'True' and request.form[tag] != 'False':
-            raise InvaildRequestError()
+            raise InvaildRequestError("Value supplied for {} must be 'True' or 'False' but recieved {}".format(tag,request.form[tag]))
         else:
             data[tag] = True if request.form[tag] == 'True' else False
     
@@ -50,8 +52,8 @@ class AuthenticationError(Exception):
        return self._msg
 
 class InvaildRequestError(Exception):
-    def __init__(self):
-        self._msg = "Invaild Request"
+    def __init__(self,reason):
+        self._msg = "Invaild Request: " + reason
 
     @property
     def message(self):

@@ -44,7 +44,7 @@ class RoomStatus():
     @property
     def door_status(self):
         if self._is_door_closed is None:
-            return "Unkown"
+            return "Unknown"
         return "Closed" if self._is_door_closed else "Open"
 
     @property
