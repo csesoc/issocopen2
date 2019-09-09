@@ -30,17 +30,18 @@ def parse_request(request):
     request.get_data(parse_form_data=True)
 
     if 'clientID' not in request.headers:
-        raise InvaildRequestError("clientID not supplied")
+        raise InvaildRequestError("clientID not provided")
 
     body_tags = ('doorClosed','peopleInside')
     for tag in body_tags:
-        if tag not in request.form.keys():
-            raise InvaildRequestError("Missing key: "+ tag)
-        if request.form[tag] != 'True' and request.form[tag] != 'False':
-            raise InvaildRequestError("Value supplied for {} must be 'True' or 'False' but recieved {}".format(tag,request.form[tag]))
-        else:
-            data[tag] = True if request.form[tag] == 'True' else False
-    
+        if tag in request.form.keys():
+            if request.form[tag]== "True":
+                data[tag] = True
+            elif request.form[tag] == "False":
+                data[tag] = False
+            else:
+                raise InvaildRequestError("Value supplied for {} must be 'True' or 'False' but recieved {}".format(tag,request.form[tag]))
+   
     return data
     
 class AuthenticationError(Exception):

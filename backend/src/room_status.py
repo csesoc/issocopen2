@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import time
 from datetime import datetime
-class RoomStatus():
+
+
+class RoomStatus:
     def __init__(self):
         self._is_door_closed = None
         self._is_people_inside = None
@@ -12,7 +14,7 @@ class RoomStatus():
         set self._is_door_closed = status
         '''
         if not isinstance(status, bool):
-            raise TypeError(f"type of status should be bool but I get {type(bool)}")
+            raise TypeError(f"type of status should be bool but I get {type(status)}")
         self._is_door_closed = status
         self._timestamp = datetime.now().strftime("%d-%m-%Y %H:%M")
 
@@ -21,8 +23,8 @@ class RoomStatus():
         set self._is_people_closed = status
         '''
         if not isinstance(status, bool):
-            raise TypeError(f"type of status should be bool but I get {type(bool)}")
-        
+            raise TypeError(f"type of status should be bool but I get {type(status)}")
+
         self._is_people_inside = status
         self._timestamp = datetime.now().strftime("%d-%m-%Y %H:%M")
 
@@ -36,7 +38,7 @@ class RoomStatus():
         elif self._is_door_closed and self._is_people_inside:
             return "The soc is open"
         elif self._is_door_closed and not self._is_people_inside:
-            return "The soc is closed" 
+            return "The soc is closed"
         elif not self._is_door_closed:
             return "The soc is open"
 
@@ -56,6 +58,3 @@ class RoomStatus():
     @property
     def timestamp(self):
         return self._timestamp
-
-
-
